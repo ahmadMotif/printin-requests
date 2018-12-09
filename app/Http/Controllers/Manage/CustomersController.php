@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Role;
 
-class EmployeesController extends Controller
+class CustomersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +16,10 @@ class EmployeesController extends Controller
      */
     public function index()
     {
-        $employees = User::whereHas('roles', function ($q) {
-            $q->whereNotIn('name', ['translator', 'writer', 'user']);
+        $customers = User::whereHas('roles', function ($q) {
+            $q->whereIn('name', ['translator', 'writer', 'user']);
         })->get();
-        return view('manage.employees.index')->withEmployees($employees);
+        return view('manage.customers.index')->withCustomers($customers);
     }
 
     /**

@@ -39,7 +39,7 @@ return [
     | Please check the docs to see what you need to do in case you have the package already configured.
     |
     */
-    'use_teams' => false,
+    'use_teams' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +52,7 @@ return [
     | it will check only if the user has attached that role/permission ignoring the team.
     |
     */
-    'teams_strict_check' => false,
+    'teams_strict_check' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -188,12 +188,12 @@ return [
          * Method to be called in the middleware return case.
          * Available: abort|redirect
          */
-        'handling' => 'abort',
+        'handling' => 'redirect',
 
         /**
          * Parameter passed to the middleware_handling method
          */
-        'params' => '403',
+        'params' => '/',
 
     ],
 

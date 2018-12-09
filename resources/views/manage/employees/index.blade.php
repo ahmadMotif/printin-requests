@@ -5,38 +5,39 @@
       <h4>The Employees</h4>
     </div>
     <div class="col">
-      <button type="button" class="btn btn-outline-primary float-right">Add New</button>
+      <a href="{{ route('employees.create') }}" class="btn btn-outline-primary float-right">Add New</a>
     </div>
   </div>
 
-  <div class="container">
-  <table class="table table-hover">
+  <div class="container-fluid my-5">
+  <table class="table table-bordered table-responsive-md table-striped table-hover text-center">
       <thead>
         <tr>
-          <th scope="col">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th>Date created</th>
+          <th class="text-center">Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td colspan="2">Larry the Bird</td>
-          <td>@twitter</td>
-        </tr>
+        @foreach ($employees as $employee)
+          <tr>
+            <th scope="row">{{ $employee->id }}</th>
+            <td>{{ $employee->name }}</td>
+            <td>{{ $employee->email }}</td>
+            <td>{{ $employee->created_at->toFormattedDateString() }}</td>
+            <td>
+                <a href="{{ route('employees.edit', $employee->id) }}" class="btn btn-primary btn-rounded btn-sm my-0">
+                    Edit
+                  </a>
+                  <a href="{{ route('employees.show', $employee->id) }}" class="btn btn-success btn-rounded btn-sm my-0">
+                    View
+                  </a>
+                  <a href="" class="btn btn-danger btn-rounded btn-sm my-0">Remove</a>
+            </td>
+          </tr>
+        @endforeach
       </tbody>
     </table>
   </div>

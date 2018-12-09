@@ -23,8 +23,13 @@ Route::prefix('manage')
     // Dashboard
     Route::get('dashboard', 'Manage\ManageController@dashboard')
         ->name('manage.dashboard');
-    // Employees
-    Route::get('employees', 'Manage\EmployeesController@index')
-        ->name('manage.employees');
+        // superadministrator Group
+        Route::middleware('role:superadministrator')
+            ->group( function () {
+                // Employees
+                Route::resource('employees', 'Manage\EmployeesController');
+                // Customers
+                Route::resource('customers', 'Manage\CustomersController');
+        });
 });
 Route::get('/home', 'HomeController@index')->name('home');
