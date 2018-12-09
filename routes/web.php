@@ -23,5 +23,8 @@ Route::prefix('manage')
     // Dashboard
     Route::get('dashboard', 'Manage\ManageController@dashboard')
         ->name('manage.dashboard');
+    // Employees
+    Route::get('employees', 'Manage\EmployeesController@index')
+        ->name('manage.employees');
 });
 Route::get('/home', 'HomeController@index')->name('home');

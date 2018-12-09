@@ -13,35 +13,22 @@
   <!-- Fonts -->
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-
-  <!-- Styles -->
-  <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
-  <style>
-    .feather {
-    width: 16px;
-    height: 16px;
-    vertical-align: text-bottom;
-  }
-  /* // === Side Navbar */
-  .sidebar {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 100; Behind the navbar
-    padding: 48px 0 0; /* Height of navbar */
-    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-    background: red;
-  }
-  </style>
 </head>
 <body>
   <div id="app">
     @include('manage.partials.navs.mainManageNav')
-  <main class="">
-    @yield('content')
-  </main>
+    <main class="main-app-content">
+      <div class="row mx-0">
+        <div class="col-2 bg-dark text-light text-center h-100">
+          @include('manage.partials.navs.sideNav')
+        </div>
+        {{-- Nav SideBar --}}
+        <div class="col-md-10 h-100">
+          @yield('content')
+        </div>
+        {{-- Main Dashboard Content --}}
+      </div>
+    </main>
   </div>
   <!-- Scripts -->
   <script src="{{ asset('js/app.js') }}" defer></script>
