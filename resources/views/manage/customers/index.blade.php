@@ -8,7 +8,17 @@
       <a href="{{ route('customers.create') }}" class="btn btn-outline-primary float-right">Add New</a>
     </div>
   </div>
-
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{{ route('manage.dashboard') }}">dashboard</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Customers
+      </li>
+    </ol>
+  </nav>
+  {{-- Breadcrumb --}}
   <div class="container-fluid my-5">
   <table class="table table-bordered table-responsive-md table-striped table-hover text-center">
       <thead>
@@ -16,6 +26,7 @@
           <th scope="col">ID</th>
           <th scope="col">Name</th>
           <th scope="col">Email</th>
+          <th scope="col">Category</th>
           <th scope="col">Date Created</th>
           <th class="text-center">Actions</th>
         </tr>
@@ -26,6 +37,13 @@
             <th scope="row">{{ $customer->id }}</th>
             <td>{{ $customer->name }}</td>
             <td>{{ $customer->email }}</td>
+            <td>
+              @forelse ($customer->roles as $category)
+                {{ $category->name }}
+              @empty
+                <p>This user has not been assigned any Category yet</p>
+              @endforelse
+            </td>
             <td>{{ $customer->created_at->toFormattedDateString() }}</td>
             <td>
               <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-primary btn-rounded btn-sm my-0">

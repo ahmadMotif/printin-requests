@@ -51,7 +51,10 @@ class EmployeesController extends Controller
      */
     public function show($id)
     {
-        //
+        $employee = User::whereHas('roles', function ($q) {
+            $q->whereNotIn('name', ['translator', 'writer', 'user']);
+        })->where('id', $id)->first();
+        return view('manage.employees.show')->withEmployee($employee);
     }
 
     /**

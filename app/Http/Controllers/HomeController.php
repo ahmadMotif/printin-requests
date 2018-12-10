@@ -30,7 +30,8 @@ class HomeController extends Controller
             'superadministrator', 'language_checker', 'finance', 'Arbitrator', 'print'
         ]);
         if ($admins) {
-            return view('manage.dashboard');
+            // return view('manage.dashboard');
+            return redirect()->route('manage.dashboard');
         }
         return view('home');
     }

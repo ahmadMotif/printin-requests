@@ -32,10 +32,6 @@
   </div>
   <!-- Scripts -->
   <script src="{{ asset('js/app.js') }}" defer></script>
-  <!-- Icons -->
-  <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-  <script>
-    feather.replace()
-  </script>
+  @yield('scripts')
 </body>
 </html>
