@@ -21,9 +21,7 @@ class CustomersController extends Controller
      */
     public function index()
     {
-        $customers = User::whereHas('roles', function ($q) {
-            $q->whereIn('name', ['translator', 'writer', 'user']);
-        })->get();
+        $customers = User::customers()->get();
         return view('manage.customers.index')->withCustomers($customers);
     }
 
@@ -64,9 +62,7 @@ class CustomersController extends Controller
      */
     public function show($id)
     {
-        $customer = User::whereHas('roles', function ($q) {
-            $q->whereIn('name', ['translator', 'writer', 'user']);
-        })->where('id', $id)->with('roles')->first();
+        $customer = User::customers()->where('id', $id)->with('roles')->first();
         return view('manage.customers.show')->withCustomer($customer);
     }
 
@@ -78,7 +74,9 @@ class CustomersController extends Controller
      */
     public function edit($id)
     {
-        //
+        $customer = User::customers()->where('id', $id)->with('roles')->first();
+        // $roles = Role::whereIn('name',[ 'writer', 'user', 'translator'])->first();
+        return view('manage.customers.edit', compact('customer', 'roles'));
     }
 
     /**
@@ -90,7 +88,15 @@ class CustomersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validateWith([
+            'name' => 'required|max:255',
+            'email' => 'required|email|unique:users,email,'.$id
+        ]);
+        $customer = User::customers()->where('id', $id)->with('roles')->first();
+        $customer->name = $request->name;
+        $customer->email = $request->email;
+        $customer->save();
+        return redirect()->route('customers.show', $id);
     }
 
     /**
@@ -101,6 +107,5 @@ class CustomersController extends Controller
      */
     public function destroy($id)
     {
-        //
     }
 }

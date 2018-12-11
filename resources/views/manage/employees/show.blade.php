@@ -29,6 +29,14 @@
       <li class="list-group-item">email: {{ $employee->email }}</li>
       <li class="list-group-item">password: {{ $employee->password }}</li>
       <li class="list-group-item">Created At: {{ $employee->created_at }}</li>
+      <li class="list-group-item">In Category:
+        @forelse ($employee->roles as $category)
+          <strong>{{ $category->display_name }}</strong>
+          ({{ $category->description }})
+        @empty
+          <p>This user has not been assigned any Ctegory yet</p>
+        @endforelse
+      </li>
     </ul>
   </div>
 @endsection

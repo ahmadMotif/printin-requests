@@ -52,7 +52,9 @@
               <a href="{{ route('customers.show', $customer->id) }}" class="btn btn-success btn-rounded btn-sm my-0">
                 View
               </a>
-              <a href="" class="btn btn-danger btn-rounded btn-sm my-0">Remove</a>
+              <a href="{{ route('customers.destroy', $customer->id) }}" class="btn btn-danger btn-rounded btn-sm my-0">
+                Remove
+              </a>
             </td>
           </tr>
         @endforeach

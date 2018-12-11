@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Role;
+use DB;
+use Session;
+use Hash;
+use Input;
+use App\Http\Requests\StoreCustomersValidatoin;
 
 class EmployeesController extends Controller
 {
@@ -16,9 +21,7 @@ class EmployeesController extends Controller
      */
     public function index()
     {
-        $employees = User::whereHas('roles', function ($q) {
-            $q->whereNotIn('name', ['translator', 'writer', 'user']);
-        })->get();
+        $employees = User::employees()->get();
         return view('manage.employees.index')->withEmployees($employees);
     }
 
@@ -29,7 +32,8 @@ class EmployeesController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Role::whereNotIn('name',[ 'writer', 'user', 'translator'])->get();
+        return view('manage.employees.create')->withRoles($roles);
     }
 
     /**
@@ -38,9 +42,16 @@ class EmployeesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCustomersValidatoin $request)
     {
-        //
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->save();
+        $user->syncRoles($request->input('roles',[]));
+
+        return redirect()->route('employees.show', $user->id);
     }
 
     /**
@@ -51,9 +62,7 @@ class EmployeesController extends Controller
      */
     public function show($id)
     {
-        $employee = User::whereHas('roles', function ($q) {
-            $q->whereNotIn('name', ['translator', 'writer', 'user']);
-        })->where('id', $id)->first();
+        $employee = User::employees()->where('id', $id)->first();
         return view('manage.employees.show')->withEmployee($employee);
     }
 
@@ -65,7 +74,9 @@ class EmployeesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $employee = User::employees()->where('id', $id)->first();
+        // $roles = Role::whereIn('name',[ 'writer', 'user', 'translator'])->first();
+        return view('manage.employees.edit', compact('employee', 'roles'));
     }
 
     /**
@@ -77,7 +88,15 @@ class EmployeesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validateWith([
+            'name' => 'required|max:255',
+            'email' => 'required|email|unique:users,email,'.$id
+        ]);
+        $employee = User::employees()->where('id', $id)->first();
+        $employee->name = $request->name;
+        $employee->email = $request->email;
+        $employee->save();
+        return redirect()->route('employees.show', $id);
     }
 
     /**

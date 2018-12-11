@@ -29,4 +29,19 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    // Employees Scope
+    public function scopeEmployees ($query)
+    {
+        return $query->whereHas('roles', function ($q) {
+            $q->whereNotIn('name', ['translator', 'writer', 'user']);
+        });
+    }
+    // Customers Scope
+    public function scopeCustomers ($query)
+    {
+        return $query->whereHas('roles', function ($q) {
+            $q->whereIn('name', ['translator', 'writer', 'user']);
+        });
+    }
 }
