@@ -33,6 +33,6 @@ class HomeController extends Controller
             // return view('manage.dashboard');
             return redirect()->route('manage.dashboard');
         }
-        return view('home');
+        return view('client.home');
     }
 }

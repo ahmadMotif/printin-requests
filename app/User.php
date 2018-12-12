@@ -30,6 +30,12 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    // Relation With Orders
+    public function orders()
+    {
+        return $this->hasMany('App\Order');
+    }
+
     // Employees Scope
     public function scopeEmployees ($query)
     {

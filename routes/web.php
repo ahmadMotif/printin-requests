@@ -30,6 +30,8 @@ Route::prefix('manage')
                 Route::resource('employees', 'Manage\EmployeesController');
                 // Customers
                 Route::resource('customers', 'Manage\CustomersController');
+                // Orders
+                Route::resource('orders', 'Manage\OrdersController');
         });
 });
 Route::get('/home', 'HomeController@index')->name('home');
